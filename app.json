@@ -1,0 +1,17 @@
+{
+  "expo": {
+    "name": "Identity Wallet DEMO",
+    "slug": "identity-wallet-demo",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "dark",
+    "newArchEnabled": true,
+    "ios": {
+      "supportsTablet": false,
+      "bundleIdentifier": "dev.identitywallet.demo"
+    },
+    "plugins": [
+      "expo-sqlite"
+    ]
+  }
+}

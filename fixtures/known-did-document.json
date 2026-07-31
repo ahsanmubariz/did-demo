@@ -1,0 +1,25 @@
+{
+  "@context": [
+    "https://www.w3.org/ns/did/v1",
+    "https://w3id.org/security/suites/jws-2020/v1"
+  ],
+  "id": "did:web:wallet.example.test",
+  "verificationMethod": [
+    {
+      "id": "did:web:wallet.example.test#oKIywvGUpTVTyxMQ3bwIIeQUudfr_CkLMjCE19ECD-U",
+      "type": "JsonWebKey2020",
+      "controller": "did:web:wallet.example.test",
+      "publicKeyJwk": {
+        "kty": "EC",
+        "crv": "P-256",
+        "x": "f83OJ3D2xF1Bg8vub9tLe1gHMzV76e8Tus9uPHvRVEU",
+        "y": "x_FEzRu9m36HLN_tue659LNpXW6pCyStikYjKIWI5a0",
+        "alg": "ES256",
+        "use": "sig"
+      }
+    }
+  ],
+  "authentication": [
+    "did:web:wallet.example.test#oKIywvGUpTVTyxMQ3bwIIeQUudfr_CkLMjCE19ECD-U"
+  ]
+}
