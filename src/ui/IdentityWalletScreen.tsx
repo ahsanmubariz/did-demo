@@ -56,16 +56,18 @@ type Receipt = {
 };
 
 const colors = {
-  ink: '#10251f',
-  inkSoft: '#234239',
-  paper: '#f5f1e7',
-  white: '#fffdf7',
-  teal: '#167565',
-  tealSoft: '#d7ebe4',
-  amber: '#d8922b',
-  muted: '#68756f',
-  line: '#cbd4cf',
-  red: '#a74232',
+  ink: '#10233f',
+  inkSoft: '#183a69',
+  paper: '#f4f7fb',
+  white: '#ffffff',
+  teal: '#166c5b',
+  tealSoft: '#dff5ed',
+  amber: '#2d63e2',
+  muted: '#52627a',
+  line: '#d9e1ec',
+  red: '#b42318',
+  blue: '#2d63e2',
+  blueDark: '#1746b5',
 };
 
 function message(error: unknown): string {
@@ -290,7 +292,10 @@ export function IdentityWalletScreen({ controller, exchange, vault }: Props) {
     return (
       <SafeAreaView style={styles.onboardingSafe}>
         <View style={styles.onboarding}>
-          <Text style={styles.eyebrowLight}>IDENTITY WALLET · DEMO</Text>
+          <View style={styles.onboardingBrand}>
+            <Text style={styles.onboardingBrandName}>Identity Wallet</Text>
+            <Text style={styles.demoBadge}>DEMO</Text>
+          </View>
           <Text style={styles.onboardingTitle}>
             {snapshot.hasIdentity
               ? 'Reconnect your\nwallet.'
@@ -308,7 +313,7 @@ export function IdentityWalletScreen({ controller, exchange, vault }: Props) {
             autoCapitalize="none"
             onChangeText={setOperatorToken}
             placeholder="Paste token from workstation"
-            placeholderTextColor="#8fa29b"
+            placeholderTextColor="#66758a"
             secureTextEntry
             style={styles.onboardingInput}
             value={operatorToken}
@@ -331,7 +336,10 @@ export function IdentityWalletScreen({ controller, exchange, vault }: Props) {
       <View style={styles.shell}>
         <View style={styles.header}>
           <View>
-            <Text style={styles.eyebrow}>IDENTITY WALLET</Text>
+            <View style={styles.productLine}>
+              <Text style={styles.productName}>Identity Wallet</Text>
+              <Text style={styles.demoBadge}>DEMO</Text>
+            </View>
             <Text style={styles.headerTitle}>
               {destination === 'wallet'
                 ? 'Wallet'
@@ -340,15 +348,14 @@ export function IdentityWalletScreen({ controller, exchange, vault }: Props) {
                   : 'Activity'}
             </Text>
           </View>
-          <View style={styles.didBadge}>
-            <View style={styles.didDot} />
-            <Text style={styles.didBadgeText}>DID READY</Text>
+          <View accessibilityLabel="Mock holder identity Alya Pratama" style={styles.holderAvatar}>
+            <Text style={styles.holderAvatarText}>AP</Text>
           </View>
         </View>
 
         {notice ? (
           <View accessibilityRole="alert" style={styles.notice}>
-            <Text style={styles.noticeMark}>✓</Text>
+            <View aria-hidden style={styles.noticeMark} />
             <Text style={styles.noticeText}>{notice}</Text>
           </View>
         ) : null}
@@ -367,18 +374,19 @@ export function IdentityWalletScreen({ controller, exchange, vault }: Props) {
               <Text style={styles.sectionLabel}>CREDENTIALS · {credentials.length}</Text>
               {credentials.length ? (
                 credentials.map((credential) => (
-                  <Pressable
-                    accessibilityLabel="Open Employee Credential"
-                    key={credential.id}
-                    onPress={() => setShowDetails((value) => !value)}
-                    style={({ pressed }) => [
-                      styles.credential,
-                      pressed && styles.pressed,
-                    ]}
-                  >
+                  <View key={credential.id} style={styles.passStack}>
+                    <View aria-hidden style={styles.credentialBack} />
+                    <Pressable
+                      accessibilityLabel="Open Employee Credential"
+                      onPress={() => setShowDetails((value) => !value)}
+                      style={({ pressed }) => [
+                        styles.credential,
+                        pressed && styles.pressed,
+                      ]}
+                    >
                     <View style={styles.credentialTop}>
                       <View style={styles.issuerSeal}>
-                        <Text style={styles.issuerSealText}>P</Text>
+                        <Text style={styles.issuerSealText}>ID</Text>
                       </View>
                       <Text style={styles.status}>{credential.status.toUpperCase()}</Text>
                     </View>
@@ -390,9 +398,9 @@ export function IdentityWalletScreen({ controller, exchange, vault }: Props) {
                         <Text style={styles.micro}>HOLDER</Text>
                         <Text style={styles.person}>Alya Pratama</Text>
                       </View>
-                      <Text style={styles.chevron}>{showDetails ? '↑' : '↗'}</Text>
+                      <Text style={styles.detailsLabel}>{showDetails ? 'Close' : 'Details'}</Text>
                     </View>
-                    {showDetails ? (
+                      {showDetails ? (
                       <View style={styles.details}>
                         <Claim label="EMPLOYEE ID" value="EMP-DEMO-001" />
                         <Claim label="DEPARTMENT" value="Digital Trust Lab" />
@@ -413,8 +421,9 @@ export function IdentityWalletScreen({ controller, exchange, vault }: Props) {
                           </Text>
                         </Pressable>
                       </View>
-                    ) : null}
-                  </Pressable>
+                      ) : null}
+                    </Pressable>
+                  </View>
                 ))
               ) : (
                 <View style={styles.empty}>
@@ -429,8 +438,27 @@ export function IdentityWalletScreen({ controller, exchange, vault }: Props) {
                   />
                 </View>
               )}
+              <Pressable
+                accessibilityLabel="Scan a code"
+                accessibilityRole="button"
+                onPress={() => setDestination('scan')}
+                style={({ pressed }) => [styles.scanShortcut, pressed && styles.pressed]}
+              >
+                <View aria-hidden style={styles.scanGlyph}>
+                  <View style={styles.scanGlyphInner} />
+                </View>
+                <Text style={styles.scanShortcutText}>Scan a code</Text>
+              </Pressable>
               <View style={styles.identityCard}>
-                <Text style={styles.sectionLabel}>HOLDER IDENTITY</Text>
+                <View style={styles.identityHeading}>
+                  <View style={styles.identityAvatarSmall}>
+                    <Text style={styles.identityAvatarSmallText}>AP</Text>
+                  </View>
+                  <View style={styles.identityHeadingCopy}>
+                    <Text style={styles.identityTitle}>Alya Pratama</Text>
+                    <Text style={styles.identityMeta}>Mock holder identity · DID ready</Text>
+                  </View>
+                </View>
                 <Text numberOfLines={2} selectable style={styles.didValue}>
                   {snapshot.did}
                 </Text>
@@ -496,7 +524,7 @@ export function IdentityWalletScreen({ controller, exchange, vault }: Props) {
                   autoCorrect={false}
                   onChangeText={setExchangeLink}
                   placeholder="https://…/issuer/offers/…"
-                  placeholderTextColor="#85928c"
+                  placeholderTextColor="#66758a"
                   style={styles.input}
                   value={exchangeLink}
                 />
@@ -515,7 +543,7 @@ export function IdentityWalletScreen({ controller, exchange, vault }: Props) {
                       maxLength={6}
                       onChangeText={setTransactionCode}
                       placeholder="000000"
-                      placeholderTextColor="#85928c"
+                      placeholderTextColor="#66758a"
                       style={[styles.input, styles.codeInput]}
                       value={transactionCode}
                     />
@@ -561,7 +589,7 @@ export function IdentityWalletScreen({ controller, exchange, vault }: Props) {
           <NavButton
             active={destination === 'wallet'}
             label="Wallet"
-            mark="▰"
+            kind="wallet"
             onPress={() => {
               setNotice(undefined);
               setDestination('wallet');
@@ -570,7 +598,7 @@ export function IdentityWalletScreen({ controller, exchange, vault }: Props) {
           <NavButton
             active={destination === 'scan'}
             label="Scan"
-            mark="⌗"
+            kind="scan"
             onPress={() => {
               setNotice(undefined);
               setDestination('scan');
@@ -579,7 +607,7 @@ export function IdentityWalletScreen({ controller, exchange, vault }: Props) {
           <NavButton
             active={destination === 'activity'}
             label="Activity"
-            mark="≡"
+            kind="activity"
             onPress={() => {
               setNotice(undefined);
               setDestination('activity');
@@ -597,7 +625,9 @@ function CameraPanel({ onScanned }: { onScanned(value: string): void }) {
   if (!permission?.granted) {
     return (
       <View style={styles.cameraPlaceholder}>
-        <Text style={styles.cameraMark}>⌗</Text>
+        <View aria-hidden style={styles.cameraIcon}>
+          <View style={styles.cameraIconCore} />
+        </View>
         <Text style={styles.cameraTitle}>Scan an exchange QR</Text>
         <Text style={styles.cameraBody}>
           Camera access is used only to read the reference URL.
@@ -638,14 +668,13 @@ function ConsentPanel({
 }) {
   return (
     <View style={styles.consent}>
-      <Text style={styles.sectionLabel}>PARTNER ACCESS PORTAL</Text>
       <Text style={styles.consentTitle}>Share employment proof?</Text>
       <Text style={styles.consentBody}>
         This verified relying party is asking for exactly three claims.
       </Text>
       {request.claims.map((claim) => (
         <View key={claim} style={styles.claimRequest}>
-          <Text style={styles.claimCheck}>✓</Text>
+          <View aria-hidden style={styles.claimCheck} />
           <Text style={styles.claimRequestText}>
             {claim.replaceAll('_', ' ')}
           </Text>
@@ -703,10 +732,7 @@ function PrimaryButton({
       {busy ? (
         <ActivityIndicator color={colors.white} />
       ) : (
-        <>
-          <Text style={styles.primaryButtonText}>{label.toUpperCase()}</Text>
-          <Text style={styles.primaryArrow}>→</Text>
-        </>
+        <Text style={styles.primaryButtonText}>{label}</Text>
       )}
     </Pressable>
   );
@@ -714,12 +740,12 @@ function PrimaryButton({
 
 function NavButton({
   label,
-  mark,
+  kind,
   active,
   onPress,
 }: {
   label: string;
-  mark: string;
+  kind: 'wallet' | 'scan' | 'activity';
   active: boolean;
   onPress(): void;
 }) {
@@ -730,7 +756,19 @@ function NavButton({
       onPress={onPress}
       style={styles.navButton}
     >
-      <Text style={[styles.navMark, active && styles.navActive]}>{mark}</Text>
+      <View
+        aria-hidden
+        style={[
+          styles.navIcon,
+          kind === 'scan' && styles.navIconScan,
+          kind === 'activity' && styles.navIconActivity,
+          active && styles.navIconActive,
+        ]}
+      >
+        {kind === 'wallet' ? <View style={[styles.walletIconLine, active && styles.walletIconLineActive]} /> : null}
+        {kind === 'scan' ? <View style={[styles.scanIconCore, active && styles.scanIconCoreActive]} /> : null}
+        {kind === 'activity' ? <View style={[styles.clockHand, active && styles.clockHandActive]} /> : null}
+      </View>
       <Text style={[styles.navLabel, active && styles.navActive]}>{label}</Text>
     </Pressable>
   );
@@ -739,45 +777,44 @@ function NavButton({
 const styles = StyleSheet.create({
   safe: { flex: 1, backgroundColor: colors.paper },
   shell: { flex: 1 },
-  content: { padding: 20, paddingBottom: 36 },
+  content: { padding: 20, paddingBottom: 32 },
   header: {
-    alignItems: 'flex-end',
-    backgroundColor: colors.ink,
+    alignItems: 'center',
+    backgroundColor: colors.white,
     flexDirection: 'row',
     justifyContent: 'space-between',
-    paddingBottom: 20,
+    paddingBottom: 14,
     paddingHorizontal: 20,
-    paddingTop: 16,
+    paddingTop: 10,
   },
-  eyebrow: {
-    color: '#9fb7ae',
-    fontFamily: 'IBMPlexMono_600SemiBold',
+  productLine: { alignItems: 'center', flexDirection: 'row', gap: 8 },
+  productName: { color: colors.ink, fontSize: 13, fontWeight: '600' },
+  demoBadge: {
+    backgroundColor: '#e8efff',
+    borderRadius: 6,
+    color: colors.blueDark,
     fontSize: 10,
-    letterSpacing: 1.8,
+    fontWeight: '700',
+    overflow: 'hidden',
+    paddingHorizontal: 7,
+    paddingVertical: 3,
   },
   headerTitle: {
-    color: colors.white,
-    fontFamily: 'Fraunces_700Bold',
+    color: colors.ink,
     fontSize: 34,
-    marginTop: 2,
+    fontWeight: '700',
+    letterSpacing: -0.8,
+    marginTop: 5,
   },
-  didBadge: {
+  holderAvatar: {
     alignItems: 'center',
-    borderColor: '#49675d',
-    borderRadius: 20,
-    borderWidth: 1,
-    flexDirection: 'row',
-    gap: 7,
-    paddingHorizontal: 10,
-    paddingVertical: 7,
+    backgroundColor: '#e6edfb',
+    borderRadius: 22,
+    height: 44,
+    justifyContent: 'center',
+    width: 44,
   },
-  didDot: { backgroundColor: '#54d5ad', borderRadius: 4, height: 7, width: 7 },
-  didBadgeText: {
-    color: '#cbe8dd',
-    fontFamily: 'IBMPlexMono_600SemiBold',
-    fontSize: 9,
-    letterSpacing: 1,
-  },
+  holderAvatarText: { color: colors.blueDark, fontSize: 14, fontWeight: '700' },
   notice: {
     alignItems: 'center',
     backgroundColor: colors.tealSoft,
@@ -786,30 +823,38 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingVertical: 11,
   },
-  noticeMark: { color: colors.teal, fontSize: 16, fontWeight: '700' },
+  noticeMark: { backgroundColor: colors.teal, borderRadius: 5, height: 10, width: 10 },
   noticeText: {
     color: colors.ink,
-    fontFamily: 'IBMPlexMono_500Medium',
     fontSize: 12,
   },
   errorBox: { backgroundColor: '#f5ddd8', padding: 12 },
-  errorText: { color: colors.red, fontFamily: 'IBMPlexMono_500Medium', fontSize: 12 },
+  errorText: { color: colors.red, fontSize: 12, fontWeight: '600' },
   sectionLabel: {
     color: colors.muted,
-    fontFamily: 'IBMPlexMono_600SemiBold',
-    fontSize: 10,
-    letterSpacing: 1.5,
-    marginBottom: 12,
+    fontSize: 12,
+    fontWeight: '600',
+    marginBottom: 14,
+  },
+  passStack: { marginBottom: 18, paddingTop: 10 },
+  credentialBack: {
+    backgroundColor: '#2ba6b8',
+    borderRadius: 16,
+    height: 92,
+    left: 14,
+    position: 'absolute',
+    right: 14,
+    top: 0,
   },
   credential: {
-    backgroundColor: colors.teal,
-    borderRadius: 3,
-    minHeight: 242,
-    padding: 22,
-    shadowColor: '#0b2f27',
+    backgroundColor: colors.blue,
+    borderRadius: 16,
+    minHeight: 238,
+    padding: 20,
+    shadowColor: '#122859',
     shadowOffset: { height: 8, width: 0 },
-    shadowOpacity: 0.18,
-    shadowRadius: 16,
+    shadowOpacity: 0.2,
+    shadowRadius: 18,
   },
   credentialTop: {
     alignItems: 'center',
@@ -819,57 +864,55 @@ const styles = StyleSheet.create({
   issuerSeal: {
     alignItems: 'center',
     backgroundColor: colors.white,
-    borderRadius: 22,
-    height: 43,
+    borderRadius: 12,
+    height: 40,
     justifyContent: 'center',
-    width: 43,
+    width: 40,
   },
   issuerSealText: {
-    color: colors.teal,
-    fontFamily: 'Fraunces_700Bold',
-    fontSize: 24,
+    color: colors.blueDark,
+    fontSize: 12,
+    fontWeight: '800',
   },
   status: {
-    backgroundColor: '#0c5d50',
-    borderRadius: 2,
-    color: '#d8fff2',
-    fontFamily: 'IBMPlexMono_600SemiBold',
-    fontSize: 9,
-    letterSpacing: 1.2,
+    backgroundColor: '#c9f2e3',
+    borderRadius: 10,
+    color: '#105f51',
+    fontSize: 10,
+    fontWeight: '700',
     paddingHorizontal: 9,
-    paddingVertical: 6,
+    paddingVertical: 5,
   },
   credentialType: {
     color: colors.white,
-    fontFamily: 'Fraunces_700Bold',
-    fontSize: 29,
-    marginTop: 30,
+    fontSize: 27,
+    fontWeight: '700',
+    letterSpacing: -0.4,
+    marginTop: 28,
   },
   credentialIssuer: {
-    color: '#c7e8dd',
-    fontFamily: 'IBMPlexMono_500Medium',
-    fontSize: 11,
+    color: '#eef3ff',
+    fontSize: 12,
     marginTop: 6,
   },
-  rule: { backgroundColor: '#69a99b', height: 1, marginVertical: 19 },
+  rule: { backgroundColor: '#6991ed', height: 1, marginVertical: 19 },
   credentialFooter: {
     alignItems: 'flex-end',
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
   micro: {
-    color: '#aad2c7',
-    fontFamily: 'IBMPlexMono_600SemiBold',
-    fontSize: 8,
-    letterSpacing: 1.4,
+    color: '#f3f6ff',
+    fontSize: 9,
+    fontWeight: '600',
   },
   person: {
     color: colors.white,
-    fontFamily: 'IBMPlexMono_500Medium',
-    fontSize: 14,
+    fontSize: 16,
+    fontWeight: '600',
     marginTop: 4,
   },
-  chevron: { color: colors.white, fontSize: 22 },
+  detailsLabel: { color: colors.white, fontSize: 12, fontWeight: '600' },
   details: {
     borderTopColor: '#69a99b',
     borderTopWidth: 1,
@@ -882,18 +925,15 @@ const styles = StyleSheet.create({
     paddingVertical: 7,
   },
   claimLabel: {
-    color: '#acd3c8',
-    fontFamily: 'IBMPlexMono_500Medium',
+    color: '#f3f6ff',
     fontSize: 9,
   },
   claimValue: {
     color: colors.white,
-    fontFamily: 'IBMPlexMono_500Medium',
     fontSize: 11,
   },
   evidence: {
-    color: '#9dcabe',
-    fontFamily: 'IBMPlexMono_400Regular',
+    color: '#f3f6ff',
     fontSize: 9,
     marginTop: 10,
   },
@@ -907,28 +947,57 @@ const styles = StyleSheet.create({
   },
   cardDangerText: {
     color: colors.white,
-    fontFamily: 'IBMPlexMono_600SemiBold',
     fontSize: 9,
     letterSpacing: 1.1,
   },
   identityCard: {
-    borderColor: colors.line,
-    borderWidth: 1,
-    marginTop: 24,
-    padding: 17,
+    backgroundColor: colors.white,
+    borderRadius: 14,
+    marginTop: 16,
+    padding: 18,
   },
+  identityHeading: { alignItems: 'center', flexDirection: 'row', marginBottom: 14 },
+  identityAvatarSmall: {
+    alignItems: 'center',
+    backgroundColor: '#e6edfb',
+    borderRadius: 18,
+    height: 36,
+    justifyContent: 'center',
+    width: 36,
+  },
+  identityAvatarSmallText: { color: colors.blueDark, fontSize: 12, fontWeight: '700' },
+  identityHeadingCopy: { flex: 1, marginLeft: 11 },
+  identityTitle: { color: colors.ink, fontSize: 15, fontWeight: '700' },
   didValue: {
     color: colors.ink,
-    fontFamily: 'IBMPlexMono_500Medium',
-    fontSize: 11,
+    fontSize: 12,
     lineHeight: 17,
   },
   identityMeta: {
     color: colors.muted,
-    fontFamily: 'IBMPlexMono_400Regular',
-    fontSize: 9,
-    marginTop: 9,
+    fontSize: 11,
+    marginTop: 3,
   },
+  scanShortcut: {
+    alignItems: 'center',
+    backgroundColor: colors.blue,
+    borderRadius: 14,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    minHeight: 56,
+  },
+  scanGlyph: {
+    alignItems: 'center',
+    borderColor: colors.white,
+    borderRadius: 6,
+    borderWidth: 2,
+    height: 22,
+    justifyContent: 'center',
+    marginRight: 10,
+    width: 22,
+  },
+  scanGlyphInner: { backgroundColor: colors.white, borderRadius: 2, height: 5, width: 5 },
+  scanShortcutText: { color: colors.white, fontSize: 16, fontWeight: '700' },
   inlineButton: {
     alignItems: 'center',
     borderColor: colors.ink,
@@ -940,7 +1009,6 @@ const styles = StyleSheet.create({
   inlineButtonDisabled: { opacity: 0.35 },
   inlineButtonText: {
     color: colors.ink,
-    fontFamily: 'IBMPlexMono_600SemiBold',
     fontSize: 9,
     letterSpacing: 1.1,
   },
@@ -952,7 +1020,6 @@ const styles = StyleSheet.create({
   },
   resetText: {
     color: colors.red,
-    fontFamily: 'IBMPlexMono_600SemiBold',
     fontSize: 9,
     letterSpacing: 1.1,
   },
@@ -964,7 +1031,6 @@ const styles = StyleSheet.create({
   },
   emptyTitle: {
     color: colors.ink,
-    fontFamily: 'Fraunces_700Bold',
     fontSize: 26,
   },
   emptyBody: {
@@ -976,7 +1042,8 @@ const styles = StyleSheet.create({
   },
   primaryButton: {
     alignItems: 'center',
-    backgroundColor: colors.ink,
+    backgroundColor: colors.blue,
+    borderRadius: 12,
     flexDirection: 'row',
     justifyContent: 'space-between',
     minHeight: 52,
@@ -985,24 +1052,21 @@ const styles = StyleSheet.create({
   },
   primaryButtonText: {
     color: colors.white,
-    fontFamily: 'IBMPlexMono_600SemiBold',
     fontSize: 11,
     letterSpacing: 1.2,
   },
-  primaryArrow: { color: colors.white, fontSize: 20 },
   input: {
     backgroundColor: colors.white,
     borderColor: colors.line,
+    borderRadius: 12,
     borderWidth: 1,
     color: colors.ink,
-    fontFamily: 'IBMPlexMono_400Regular',
     fontSize: 12,
     minHeight: 54,
     paddingHorizontal: 14,
   },
   inputLabel: {
     color: colors.muted,
-    fontFamily: 'IBMPlexMono_600SemiBold',
     fontSize: 9,
     letterSpacing: 1.3,
     marginBottom: 8,
@@ -1011,7 +1075,6 @@ const styles = StyleSheet.create({
   codeInput: { fontSize: 22, letterSpacing: 8, marginBottom: 12, textAlign: 'center' },
   or: {
     color: colors.muted,
-    fontFamily: 'IBMPlexMono_600SemiBold',
     fontSize: 9,
     letterSpacing: 1.5,
     marginBottom: 9,
@@ -1020,21 +1083,29 @@ const styles = StyleSheet.create({
   },
   helper: {
     color: colors.muted,
-    fontFamily: 'IBMPlexMono_400Regular',
     fontSize: 10,
     lineHeight: 16,
     marginTop: 16,
   },
   cameraPlaceholder: {
     alignItems: 'center',
-    backgroundColor: colors.inkSoft,
+    backgroundColor: colors.ink,
+    borderRadius: 16,
     minHeight: 235,
     padding: 28,
   },
-  cameraMark: { color: '#8ed8c2', fontSize: 42 },
+  cameraIcon: {
+    alignItems: 'center',
+    borderColor: '#8db1ff',
+    borderRadius: 10,
+    borderWidth: 2,
+    height: 46,
+    justifyContent: 'center',
+    width: 46,
+  },
+  cameraIconCore: { backgroundColor: '#8db1ff', borderRadius: 3, height: 8, width: 8 },
   cameraTitle: {
     color: colors.white,
-    fontFamily: 'Fraunces_700Bold',
     fontSize: 22,
     marginTop: 8,
   },
@@ -1048,6 +1119,7 @@ const styles = StyleSheet.create({
   },
   cameraFrame: {
     backgroundColor: colors.ink,
+    borderRadius: 16,
     height: 280,
     overflow: 'hidden',
   },
@@ -1063,7 +1135,6 @@ const styles = StyleSheet.create({
   consent: { paddingTop: 4 },
   consentTitle: {
     color: colors.ink,
-    fontFamily: 'Fraunces_700Bold',
     fontSize: 34,
     lineHeight: 38,
   },
@@ -1082,28 +1153,26 @@ const styles = StyleSheet.create({
     gap: 12,
     minHeight: 48,
   },
-  claimCheck: { color: colors.teal, fontSize: 16, fontWeight: '700' },
+  claimCheck: { backgroundColor: colors.teal, borderRadius: 5, height: 10, width: 10 },
   claimRequestText: {
     color: colors.ink,
-    fontFamily: 'IBMPlexMono_500Medium',
     fontSize: 13,
     textTransform: 'capitalize',
   },
   withheld: {
-    backgroundColor: '#e8e4da',
+    backgroundColor: '#e9eff8',
+    borderRadius: 12,
     marginBottom: 18,
     marginTop: 18,
     padding: 14,
   },
   withheldTitle: {
     color: colors.muted,
-    fontFamily: 'IBMPlexMono_600SemiBold',
     fontSize: 9,
     letterSpacing: 1.2,
   },
   withheldText: {
     color: colors.inkSoft,
-    fontFamily: 'IBMPlexMono_400Regular',
     fontSize: 11,
     lineHeight: 17,
     marginTop: 5,
@@ -1111,7 +1180,6 @@ const styles = StyleSheet.create({
   denyButton: { alignItems: 'center', minHeight: 48, justifyContent: 'center' },
   denyText: {
     color: colors.red,
-    fontFamily: 'IBMPlexMono_600SemiBold',
     fontSize: 10,
     letterSpacing: 1.2,
   },
@@ -1133,7 +1201,6 @@ const styles = StyleSheet.create({
   receiptCopy: { flex: 1 },
   receiptTitle: {
     color: colors.ink,
-    fontFamily: 'IBMPlexMono_600SemiBold',
     fontSize: 12,
   },
   receiptDetail: {
@@ -1144,7 +1211,6 @@ const styles = StyleSheet.create({
   },
   receiptTime: {
     color: colors.muted,
-    fontFamily: 'IBMPlexMono_500Medium',
     fontSize: 8,
   },
   nav: {
@@ -1152,77 +1218,84 @@ const styles = StyleSheet.create({
     borderTopColor: colors.line,
     borderTopWidth: 1,
     flexDirection: 'row',
-    minHeight: 68,
+    minHeight: 70,
   },
   navButton: {
     alignItems: 'center',
     flex: 1,
     justifyContent: 'center',
-    minHeight: 54,
+    minHeight: 60,
   },
-  navMark: { color: '#87928d', fontSize: 17 },
+  navIcon: {
+    borderColor: '#7b8798',
+    borderRadius: 3,
+    borderWidth: 1.8,
+    height: 16,
+    justifyContent: 'center',
+    width: 20,
+  },
+  navIconScan: { borderRadius: 5, height: 19, width: 19 },
+  navIconActivity: { borderRadius: 10, height: 19, width: 19 },
+  navIconActive: { borderColor: colors.blue },
+  walletIconLine: { backgroundColor: '#7b8798', height: 1.5, marginHorizontal: 3 },
+  walletIconLineActive: { backgroundColor: colors.blue },
+  scanIconCore: { alignSelf: 'center', backgroundColor: '#7b8798', height: 4, width: 4 },
+  scanIconCoreActive: { backgroundColor: colors.blue },
+  clockHand: { alignSelf: 'center', backgroundColor: '#7b8798', height: 6, width: 1.5 },
+  clockHandActive: { backgroundColor: colors.blue },
   navLabel: {
-    color: '#87928d',
-    fontFamily: 'IBMPlexMono_500Medium',
-    fontSize: 9,
-    marginTop: 3,
+    color: '#627087',
+    fontSize: 11,
+    marginTop: 5,
   },
-  navActive: { color: colors.teal },
+  navActive: { color: colors.blue, fontWeight: '600' },
   pressed: { opacity: 0.75 },
-  onboardingSafe: { backgroundColor: colors.ink, flex: 1 },
+  onboardingSafe: { backgroundColor: colors.paper, flex: 1 },
   onboarding: {
     flex: 1,
     justifyContent: 'center',
     paddingHorizontal: 24,
   },
-  eyebrowLight: {
-    color: '#88b5a7',
-    fontFamily: 'IBMPlexMono_600SemiBold',
-    fontSize: 10,
-    letterSpacing: 1.8,
-  },
+  onboardingBrand: { alignItems: 'center', flexDirection: 'row', gap: 8 },
+  onboardingBrandName: { color: colors.ink, fontSize: 15, fontWeight: '700' },
   onboardingTitle: {
-    color: colors.white,
-    fontFamily: 'Fraunces_700Bold',
+    color: colors.ink,
     fontSize: 46,
     lineHeight: 49,
     marginTop: 16,
   },
   onboardingBody: {
-    color: '#b7c8c1',
+    color: colors.muted,
     fontSize: 15,
     lineHeight: 23,
     marginBottom: 34,
     marginTop: 16,
   },
   inputLabelLight: {
-    color: '#9fb4ac',
-    fontFamily: 'IBMPlexMono_600SemiBold',
+    color: colors.muted,
     fontSize: 9,
     letterSpacing: 1.2,
     marginBottom: 8,
   },
   onboardingInput: {
-    borderColor: '#47645a',
+    backgroundColor: colors.white,
+    borderColor: colors.line,
     borderWidth: 1,
-    color: colors.white,
-    fontFamily: 'IBMPlexMono_400Regular',
+    color: colors.ink,
     fontSize: 12,
     marginBottom: 12,
     minHeight: 54,
     paddingHorizontal: 14,
   },
   onboardingFoot: {
-    color: '#7f9990',
-    fontFamily: 'IBMPlexMono_400Regular',
+    color: colors.muted,
     fontSize: 9,
     lineHeight: 15,
     marginTop: 18,
     textAlign: 'center',
   },
   errorLight: {
-    color: '#ffb4a5',
-    fontFamily: 'IBMPlexMono_500Medium',
+    color: colors.red,
     fontSize: 11,
     marginBottom: 14,
   },

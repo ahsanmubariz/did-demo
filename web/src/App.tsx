@@ -193,9 +193,23 @@ export function App() {
       <main>
         {area === 'issuer' ? (
           <section className="workspace issuer">
+            <ol className="exchange-steps" aria-label="Credential exchange progress">
+              <li className="complete">
+                <span>1</span>
+                <div><strong>Employee</strong><small>Synthetic record ready</small></div>
+              </li>
+              <li className={offer ? 'complete' : 'current'}>
+                <span>2</span>
+                <div><strong>Offer</strong><small>{offer ? 'Credential offer created' : 'Ready to create'}</small></div>
+              </li>
+              <li className={offerState === 'accepted' ? 'complete' : ''}>
+                <span>3</span>
+                <div><strong>Wallet accepted</strong><small>{offerState === 'accepted' ? 'Stored on device' : 'Awaiting wallet'}</small></div>
+              </li>
+            </ol>
+
             <div className="intro">
-              <p className="kicker">PERURI DEMO ISSUER</p>
-              <h1>Issue trusted proof,<br />without the paperwork.</h1>
+              <h1>Issue trusted proof, without the paperwork.</h1>
               <p>
                 Create one short-lived offer for a synthetic employee. The QR
                 carries a reference only; the credential is holder-bound after
@@ -205,7 +219,6 @@ export function App() {
 
             {!unlocked ? (
               <div className="operator-card">
-                <span className="card-index">OPERATOR ACCESS</span>
                 <h2>Unlock the issuer desk</h2>
                 <label htmlFor="operator-token">Operator token</label>
                 <input
@@ -216,7 +229,7 @@ export function App() {
                   placeholder="Token printed at Companion startup"
                 />
                 <button aria-label="Unlock issuer" className="primary" disabled={busy} onClick={unlockIssuer}>
-                  Unlock issuer <span>→</span>
+                  {busy ? 'Unlocking…' : 'Unlock issuer'}
                 </button>
                 <p className="microcopy">Kept in this browser tab only.</p>
               </div>
@@ -236,7 +249,7 @@ export function App() {
                     <div><dt>Employer</dt><dd>PERURI</dd></div>
                   </dl>
                   <button aria-label="Create credential offer" className="primary amber" disabled={busy} onClick={createOffer}>
-                    Create credential offer <span>→</span>
+                    {busy ? 'Creating offer…' : 'Create credential offer'}
                   </button>
                 </article>
 
@@ -267,7 +280,7 @@ export function App() {
                           disabled={busy}
                           onClick={revokeCredential}
                         >
-                          Revoke active credential
+                          {busy ? 'Revoking…' : 'Revoke active credential'}
                         </button>
                       ) : null}
                     </>
@@ -290,8 +303,7 @@ export function App() {
         ) : (
           <section className="workspace partner">
             <div className="intro partner-intro">
-              <p className="kicker">PARTNER ACCESS PORTAL</p>
-              <h1>One proof.<br />Three necessary facts.</h1>
+              <h1>One proof. Three necessary facts.</h1>
               <p>
                 Ask for name, employer, and active employment status. Email,
                 employee number, department, and the credential itself stay
@@ -302,11 +314,10 @@ export function App() {
               {!partnerRequest ? (
                 <div className="request-start">
                   <div className="policy">
-                    <span className="card-index">ACCESS POLICY</span>
                     <h2>Active PERURI employee</h2>
                     {['Name', 'Employer', 'Employment status'].map((claim) => (
                       <div className="policy-row" key={claim}>
-                        <span>✓</span>{claim}
+                        <span aria-hidden="true" />{claim}
                       </div>
                     ))}
                     <div className="not-requested">
@@ -314,14 +325,13 @@ export function App() {
                     </div>
                   </div>
                   <button aria-label="Request wallet proof" className="primary teal" disabled={busy} onClick={createPartnerRequest}>
-                    Request wallet proof <span>→</span>
+                    {busy ? 'Creating request…' : 'Request wallet proof'}
                   </button>
                 </div>
               ) : partnerResult?.state === 'granted' ? (
                 <div className="workspace-granted">
-                  <div className="grant-mark">✓</div>
-                  <p className="kicker">ACCESS GRANTED</p>
-                  <h2>Welcome, {partnerResult.disclosed.name}</h2>
+                  <div aria-hidden="true" className="grant-mark" />
+                  <h2>Access granted. Welcome, {partnerResult.disclosed.name}</h2>
                   <p>
                     {partnerResult.disclosed.employer} ·{' '}
                     {partnerResult.disclosed.employment_status}
@@ -334,8 +344,7 @@ export function App() {
                 </div>
               ) : partnerResult?.state === 'denied' ? (
                 <div className="result-denied">
-                  <p className="kicker">REQUEST CLOSED</p>
-                  <h2>No data was shared.</h2>
+                  <h2>Request closed. No data was shared.</h2>
                   <p>{partnerResult.reason}</p>
                   <button className="secondary" onClick={() => {
                     setPartnerRequest(undefined);

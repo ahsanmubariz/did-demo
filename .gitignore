@@ -79,3 +79,8 @@ pnpm-debug.log*
 ._*
 Thumbs.db
 Desktop.ini
+
+
+/.impeccable/
+/DESIGN.md
+/PRODUCT.md
