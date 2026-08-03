@@ -246,7 +246,7 @@ export function App() {
                   <dl>
                     <div><dt>Employee ID</dt><dd>EMP-DEMO-001</dd></div>
                     <div><dt>Email</dt><dd>alya.pratama@employee.test</dd></div>
-                    <div><dt>Employer</dt><dd>PERURI</dd></div>
+                    <div><dt>Employer</dt><dd>DUMMY-CORP</dd></div>
                   </dl>
                   <button aria-label="Create credential offer" className="primary amber" disabled={busy} onClick={createOffer}>
                     {busy ? 'Creating offer…' : 'Create credential offer'}
@@ -314,7 +314,7 @@ export function App() {
               {!partnerRequest ? (
                 <div className="request-start">
                   <div className="policy">
-                    <h2>Active PERURI employee</h2>
+                    <h2>Active DUMMY-CORP employee</h2>
                     {['Name', 'Employer', 'Employment status'].map((claim) => (
                       <div className="policy-row" key={claim}>
                         <span aria-hidden="true" />{claim}

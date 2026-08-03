@@ -51,7 +51,7 @@ class SequenceRandom {
 const credential = {
   id: 'employee-001',
   compact: 'issuer~disclosure~',
-  issuer: 'PERURI Demo Issuer',
+  issuer: 'DUMMY-CORP Demo Issuer',
   type: 'Employee Credential',
   issuedAt: 1785373200,
   expiresAt: 1785978000,

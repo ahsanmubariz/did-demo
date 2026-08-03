@@ -178,7 +178,7 @@ describe('OpenID4VP partner access seam', () => {
       state: 'granted',
       disclosed: {
         name: 'Alya Pratama',
-        employer: 'PERURI',
+        employer: 'DUMMY-CORP',
         employment_status: 'active',
       },
       accessExpiresIn: expect.any(Number),

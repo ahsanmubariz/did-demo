@@ -20,7 +20,7 @@ const claims = {
   email: 'alya.pratama@employee.test',
   employee_id: 'EMP-DEMO-001',
   department: 'Digital Trust Lab',
-  employer: 'PERURI',
+  employer: 'DUMMY-CORP',
   employment_status: 'active',
 } as const;
 
@@ -117,7 +117,7 @@ describe('SD-JWT Employee Credential seam', () => {
 
     expect(verified.disclosed).toEqual({
       name: 'Alya Pratama',
-      employer: 'PERURI',
+      employer: 'DUMMY-CORP',
       employment_status: 'active',
     });
     expect(verified.withheld).toEqual(['email', 'employee_id', 'department']);

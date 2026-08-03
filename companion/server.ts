@@ -153,7 +153,7 @@ const employeeClaims: EmployeeClaims = {
   email: 'alya.pratama@employee.test',
   employee_id: 'EMP-DEMO-001',
   department: 'Digital Trust Lab',
-  employer: 'PERURI',
+  employer: 'DUMMY-CORP',
   employment_status: 'active',
 };
 
@@ -710,7 +710,7 @@ export async function startCompanion(
         return;
       }
       if (
-        verified.disclosed.employer !== 'PERURI' ||
+        verified.disclosed.employer !== 'DUMMY-CORP' ||
         verified.disclosed.employment_status !== 'active'
       ) {
         response.status(403).json({ error: 'access_policy_denied' });

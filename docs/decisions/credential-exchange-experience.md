@@ -5,7 +5,7 @@ language; standards terminology appears in expandable protocol evidence.
 
 The mobile product name is **Identity Wallet** with a persistent **DEMO**
 badge. The web application is **Credential Exchange Demo**, containing
-**PERURI Demo Issuer** and **Partner Access Portal** roles.
+**DUMMY-CORP Demo Issuer** and **Partner Access Portal** roles.
 
 ## Visual direction
 

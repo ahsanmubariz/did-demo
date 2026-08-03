@@ -66,7 +66,7 @@ The employee record is entirely synthetic:
 | Email | `alya.pratama@employee.test` |
 | Employee ID | `EMP-DEMO-001` |
 | Department | Digital Trust Lab |
-| Employer | PERURI |
+| Employer | DUMMY-CORP |
 | Employment status | Active |
 
 ## Architecture
@@ -82,7 +82,7 @@ flowchart LR
     end
 
     subgraph Workstation["Workstation · one Express process"]
-        Issuer["PERURI Demo Issuer"]
+        Issuer["DUMMY-CORP Demo Issuer"]
         RP["Partner Access Portal"]
         Publisher["Holder DID Publisher"]
         DB["Node SQLite\ncredentials, status, sessions, audit"]

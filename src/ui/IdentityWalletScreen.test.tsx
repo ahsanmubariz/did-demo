@@ -5,7 +5,7 @@ import { IdentityWalletScreen } from './IdentityWalletScreen';
 const credential: StoredCredential = {
   id: 'employee-001',
   compact: 'issuer~disclosures~',
-  issuer: 'PERURI Demo Issuer',
+  issuer: 'DUMMY-CORP Demo Issuer',
   type: 'Employee Credential',
   issuedAt: 1785373200,
   expiresAt: 1785978000,
@@ -84,7 +84,7 @@ describe('Identity Wallet product screen', () => {
     );
 
     await waitFor(() => expect(screen.getByText('Employee Credential')).toBeTruthy());
-    expect(screen.getByText('PERURI Demo Issuer')).toBeTruthy();
+    expect(screen.getByText('DUMMY-CORP Demo Issuer')).toBeTruthy();
     expect(screen.getByText('ACTIVE')).toBeTruthy();
 
     fireEvent.press(screen.getByRole('button', { name: 'Scan' }));

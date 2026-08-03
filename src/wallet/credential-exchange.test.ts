@@ -17,7 +17,7 @@ function jsonResponse(value: unknown, status = 200): Response {
 const activeCredential: StoredCredential = {
   id: 'employee-001',
   compact: 'issuer~disclosure~',
-  issuer: 'PERURI Demo Issuer',
+  issuer: 'DUMMY-CORP Demo Issuer',
   type: 'Employee Credential',
   issuedAt: 1785373200,
   expiresAt: 1785978000,

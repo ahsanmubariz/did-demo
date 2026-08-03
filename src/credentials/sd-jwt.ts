@@ -34,7 +34,7 @@ export type DisclosureSalts = Record<EmployeeClaimName, string>;
 
 export const employeeTypeMetadata = {
   vct: EMPLOYEE_VCT,
-  name: 'PERURI Employee Credential',
+  name: 'DUMMY-CORP Employee Credential',
   description: 'Synthetic employment credential for the Identity Wallet demo.',
   display: [
     {

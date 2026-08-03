@@ -154,7 +154,7 @@ export class CredentialExchangeWallet {
     const credential: StoredCredential = {
       id: issued.notification_id,
       compact,
-      issuer: 'PERURI Demo Issuer',
+      issuer: 'DUMMY-CORP Demo Issuer',
       type: 'Employee Credential',
       issuedAt: now,
       expiresAt: now + 7 * 24 * 60 * 60,

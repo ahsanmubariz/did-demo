@@ -192,7 +192,7 @@ export function IdentityWalletScreen({ controller, exchange, vault }: Props) {
       setCredentials([accepted]);
       setTransactionCode('');
       setExchangeLink('');
-      addReceipt('Credential accepted', 'Employee Credential · PERURI');
+      addReceipt('Credential accepted', 'Employee Credential · DUMMY-CORP');
       setDestination('wallet');
     } catch (acceptError) {
       setError(message(acceptError));
@@ -404,7 +404,7 @@ export function IdentityWalletScreen({ controller, exchange, vault }: Props) {
                       <View style={styles.details}>
                         <Claim label="EMPLOYEE ID" value="EMP-DEMO-001" />
                         <Claim label="DEPARTMENT" value="Digital Trust Lab" />
-                        <Claim label="EMPLOYER" value="PERURI" />
+                        <Claim label="EMPLOYER" value="DUMMY-CORP" />
                         <Claim label="STATUS" value="Active" />
                         <Text style={styles.evidence}>
                           SD-JWT · ES256 · status checked online
@@ -429,7 +429,7 @@ export function IdentityWalletScreen({ controller, exchange, vault }: Props) {
                 <View style={styles.empty}>
                   <Text style={styles.emptyTitle}>No credentials yet</Text>
                   <Text style={styles.emptyBody}>
-                    Scan the offer shown by PERURI Demo Issuer to add your
+                    Scan the offer shown by DUMMY-CORP Demo Issuer to add your
                     synthetic employee credential.
                   </Text>
                   <PrimaryButton
